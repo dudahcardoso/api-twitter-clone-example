@@ -11,9 +11,9 @@ connectDatabase();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send({ message: "Hello, world!" });
-});
+// app.get("/", (req, res) => {
+//     res.send({ message: "Hello, world!" });
+// });
 
 app.use("/users", userRoute);
 
