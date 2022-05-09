@@ -13,8 +13,59 @@ const searchTweetService = (message) =>
     .sort({ _id: -1 })
     .populate("user");
 
+const likesService = (id, userId) =>
+  Tweet.findOneAndUpdate(
+    {
+      _id: id,
+      "likes.userId": { $nin: [userId] },
+    },
+    {
+      $push: {
+        likes: { userId, created: new Date() },
+      },
+    },
+    {
+      rawResult: true,
+    }
+  );
+
+  const retweetsService = (id, userId) =>
+  Tweet.findOneAndUpdate(
+    {
+      _id: id,
+      "retweets.userId": { $nin: [userId] },
+    },
+    {
+      $push: {
+        retweets: { userId, created: new Date() },
+      },
+    },
+    {
+      rawResult: true,
+    }
+  );
+
+  const commentsService = (id, userId) =>
+  Tweet.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $push: {
+        comments: { userId, created: new Date() },
+      },
+    },
+    {
+      rawResult: true,
+    }
+  );
+
+
 module.exports = {
   createTweetService,
   findAllTweetsService,
   searchTweetService,
+  likesService,
+  retweetsService,
+  commentsService
 };
